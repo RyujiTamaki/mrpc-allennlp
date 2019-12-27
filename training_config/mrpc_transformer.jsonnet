@@ -7,7 +7,6 @@ local model_name = "bert-base-uncased";
         "tokenizer": {
             "type": "pretrained_transformer",
             "model_name": model_name,
-            "max_length": 128
         },
         "token_indexers": {
             "tokens": {

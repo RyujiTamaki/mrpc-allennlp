@@ -1,0 +1,59 @@
+{
+    "dataset_reader": {
+        "type": "mrpc",
+        "lazy": false,
+        "token_indexers": {
+            "tokens": {
+                "type": "pretrained_transformer",
+                "model_name": "bert-base-uncased"
+            }
+        },
+        "tokenizer": {
+            "type": "pretrained_transformer",
+            "model_name": "bert-base-uncased"
+        }
+    },
+    "iterator": {
+        "type": "bucket",
+        "batch_size": 32,
+        "sorting_keys": [
+            [
+                "tokens",
+                "num_tokens"
+            ]
+        ]
+    },
+    "model": {
+        "type": "basic_classifier",
+        "seq2vec_encoder": {
+            "type": "cls_token",
+            "hidden_size": 768
+        },
+        "text_field_embedder": {
+            "allow_unmatched_keys": true,
+            "embedder_to_indexer_map": {
+                "tokens": [
+                    "tokens",
+                    "attention_mask"
+                ]
+            },
+            "token_embedders": {
+                "tokens": {
+                    "type": "pretrained_transformer",
+                    "model_name": "bert-base-uncased"
+                }
+            }
+        }
+    },
+    "train_data_path": "/home/ryuji/glue_data/MRPC/train.tsv",
+    "validation_data_path": "/home/ryuji/glue_data/MRPC/dev.tsv",
+    "trainer": {
+        "cuda_device": 0,
+        "num_epochs": 3,
+        "optimizer": {
+            "type": "adam",
+            "lr": 2e-05
+        },
+        "validation_metric": "+accuracy"
+    }
+}
